@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Airports CRUD</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Airports CRUD">
+        <meta name="author" content="Lucija Perković">
+        <meta name="keywords" content="airports, airlines">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="./styles/datatables.css">
+        <link rel="stylesheet" href="./styles/main.css">
+        <script src="./scripts/maps.js"></script>
+        <script type="text/javascript" charset="utf8" src="./styles/datatables.js"></script>
+        
+        <script>
+            $(document).ready( function () {
+		        $('#myTable').DataTable();
+            } );
+            
+        </script>
+
+    </head>
+    <body>
+        
+        <div><h1>Airports</h1></div>
+        <div>
+            <table id="myTable" class="display">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Associated airline</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let airport of airports) { %>
+                    <tr>   
+                        <td><%=airport.airport_id%></td>
+                        <td><%=airport.airport_name%></td>
+                        <td><%=airport.country_name%></td>
+                        <td><%=airport.latitude%></td>
+                        <td><%=airport.longitude%></td>
+                        <td><input type="button" value="Edit" class="button button_edit"></td>
+                        <td><input type="button" value="Delete" class="button button_delete"></td>
+                    </tr>
+                    
+                    <% } %>
+                </tbody>
+            </table>
+           
+        </div>
+        
+        <input type="button" value="Add Airport" class="button button_add">
+        
+    </body>
+
+</html>

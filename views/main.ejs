@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Airports CRUD</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Airports CRUD">
+        <meta name="author" content="Lucija Perković">
+        <meta name="keywords" content="airports, airlines">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <script src="/jquery/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" href="./styles/datatables.css">
+        <link rel="stylesheet" type= "text/css"href="./styles/main.css">
+        <script src="./scripts/maps.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=&v=weekly"
+            defer
+        ></script>
+        
+        
+
+    </head>
+    <body>
+        <div><h1>CRUD Database - Airports</h1></div>
+        <br><br>
+        <div><h2>Where do you want to go?</h2></div>
+        <div id = "map"></div>
+        <br><br>
+        <div class="main_buttons">
+            <a href="/airports"><input type="button" value="Airports" class="button button_add"></a>
+            <a href="/airlines"><input type="button" value="Airlines" class="button button_add"></a>
+            <a href="/countries"><input type="button" value="Countries" class="button button_add"></a>
+        </div>
+        
+        
+        <br><br>
+        
+    </body>
+
+</html>

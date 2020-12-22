@@ -1,0 +1,39 @@
+
+
+.display{
+    width: 100%;
+    font-size: 20px;
+    padding: 1px;
+}
+.button{
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.button_edit{
+    background-color:darkorange;
+}
+.button_delete{
+    background-color: red;
+}
+.button_add{
+    background-color: yellowgreen;
+}
+#map {
+    height: 250px;
+    width: 300px;
+    margin: 0;
+    padding: 0;
+  }
+h1{
+    text-align: center;
+}
+  /* Optional: Makes the sample page fill the window. */
