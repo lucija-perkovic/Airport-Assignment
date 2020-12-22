@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Airports CRUD</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Airports CRUD">
+        <meta name="author" content="Lucija Perković">
+        <meta name="keywords" content="airports, airlines">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <link rel="stylesheet" href="../styles/main.css">
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8u7OB3sUpyP85gp0EAXWdrsXhAQ1Z1ZM&callback=initMap"
+        type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    </head>
+    <body>
+        <div>
+            <form action="add" method="POST"><fieldset>
+                <legend>New airport</legend><br>
+                <label for="airport_name" >Name:</label>
+                <input type="text" name="airport_name" id="airport_name" size="30"><br>
+                <label for="country_name">Country:</label>
+                <input type="text" name="country_name" id="country_name" size="30"><br>
+                <label for="airline_name">Associated Airline:</label>
+                <input type="text" name="airline_name" id="airline_name" size="30"><br>
+                <label for="latitude">Latitude:</label>
+                <input type="text" name = "latitude" id="lat" size="40" readonly>
+                <label for="longitude">Longitude:</label>
+                <input type="text" name = "longitude" id="lng" text-size="40" readonly>
+                <div id="map"></div>
+                
+                <br>
+                <div>
+                    <input type="submit" value="Add" class="button button_add">
+                    <a href="/"><button class="button button_back">Cancel</button></a>
+                </div>
+            </fieldset></form>
+           
+        </div>
+        
+        <script>
+            var map;
+            function initMap() {
+                var myLatlng = new google.maps.LatLng(45.815399,15.966568);
+                var myOptions = {
+                    zoom: 7,
+                    center: myLatlng,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                map = new google.maps.Map(document.getElementById("map"), myOptions);
+                map.setOptions({draggableCursor:'crosshair'});
+
+                marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map
+                });
+
+                google.maps.event.addListener(map, "click", function(event) {
+                
+                    var clickLat = event.latLng.lat();
+                    var clickLng = event.latLng.lng();
+
+                
+                    document.getElementById("lat").value = clickLat.toFixed(5);
+                    document.getElementById("lng").value = clickLng.toFixed(5);
+
+                    var marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(clickLat,clickLng),
+                        map: map
+                    });
+                });
+            }   
+
+    
+        </script>
+    </body>
+
+</html>

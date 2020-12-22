@@ -25,6 +25,7 @@
     <body>
         
         <div><h1>Airports</h1></div>
+        <div><a href="/"><button class="button button_back">Back</button></a></div>
         <div>
             <table id="myTable" class="display">
                 <thead>
@@ -47,6 +48,7 @@
                         <td><%=airport.country_name%></td>
                         <td><%=airport.latitude%></td>
                         <td><%=airport.longitude%></td>
+                        <td><%=airport.airline_name%></td>
                         <td><input type="button" value="Edit" class="button button_edit"></td>
                         <td><input type="button" value="Delete" class="button button_delete"></td>
                     </tr>
@@ -56,8 +58,11 @@
             </table>
            
         </div>
+        <div>
+            <a href="airports/add"><input type="button" value="Add Airport" class="button button_add"></a>
+            <a href="airports/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
+        </div>
         
-        <input type="button" value="Add Airport" class="button button_add">
         
     </body>
 

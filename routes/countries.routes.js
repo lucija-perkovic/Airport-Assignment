@@ -14,4 +14,11 @@ router.get('/', async function (req, res) {
     });
 });
 
+router.get('/JSONDownload', async function(req,res){
+    const countries = (await db.query('SELECT * FROM countries'));
+    console.log(countries);
+    res.json(countries);
+    
+});
+
 module.exports = router;

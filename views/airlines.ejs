@@ -25,6 +25,7 @@
     <body>
         
         <div><h1>Airlines</h1></div>
+        <div><a href="/"><button class="button button_back">Back</button></a></div>
         <div>
             <table id="myTable" class="display">
                 <thead>
@@ -42,15 +43,10 @@
                         <td><%=airline.airline_id%></td>
                         <td><%=airline.airline_name%></td>
                         <td><%=airline.country_name%></td>
-                        
+                        <form action="put" method="P"></form>
                         <td><input type="button" value="Edit" class="button button_edit"></td>
-                        <form action="delete">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <td><button class="button button_delete" data-method="DELETE">Delete</button></td>
-                        </form>
                         
-                        
-                        
+                        <td><input type="button" value="Delete" class="button button_delete"></td>
                     </tr>
                     
                     <% } %>

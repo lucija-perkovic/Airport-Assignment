@@ -21,14 +21,15 @@ router.get('/add', async function (req, res) {
     });
 });
 router.get('/JSONDownload', async function(req,res){
-    const nac_parkovi = (await db.query('SELECT * FROM airlines'));
-    res.json(nac_parkovi);
+    const airlines = (await db.query('SELECT * FROM airlines'));
+    res.json(airlines);
     
 });
 router.post('/add', async function (req, res) {
     console.log(req.body);
     console.log(req.body.airline_name);
     console.log(req.body.country_name);
+    
     try{
         var airline_name = req.body.airline_name;
         var country_name = req.body.country_name;

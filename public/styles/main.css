@@ -49,9 +49,13 @@ label{
 .button_download{
     background-color: blue;
 }
+.button_back{
+    background-color: rgb(65, 57, 57);
+}
 #map {
-    height: 250px;
-    width: 300px;
+    zoom: 1;
+    height: 400px;
+    width: 50%;
     margin: 0;
     padding: 0;
   }
@@ -59,4 +63,20 @@ h1{
     font-size: 70px;
     text-align: center;
 }
-  /* Optional: Makes the sample page fill the window. */
+input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 20px;
+}
+input[type=text]:focus {
+    background-color: lightgrey;
+}
+#lat,#lng{
+    background-color: gray;
+    color: honeydew;
+    
+}
+
