@@ -21,6 +21,21 @@ label{
     transition-duration: 0.4s;
     cursor: pointer;
     border-radius: 8px;
+    
+}
+.main_buttons{
+    font-size: 80px;
+    border: none;
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    border-radius: 14px;
+    transition-duration: 0.4s;
+    width: 33%;
+    height: 250px;
+}
+.main_buttons:hover{
+    background-color: lightgray;
 }
 .button_edit{
     background-color:darkorange;
@@ -41,6 +56,7 @@ label{
     padding: 0;
   }
 h1{
+    font-size: 70px;
     text-align: center;
 }
   /* Optional: Makes the sample page fill the window. */

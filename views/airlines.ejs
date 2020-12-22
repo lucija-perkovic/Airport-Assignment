@@ -42,8 +42,15 @@
                         <td><%=airline.airline_id%></td>
                         <td><%=airline.airline_name%></td>
                         <td><%=airline.country_name%></td>
+                        
                         <td><input type="button" value="Edit" class="button button_edit"></td>
-                        <td><input type="button" value="Delete" class="button button_delete"></td>
+                        <form action="delete">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <td><button class="button button_delete" data-method="DELETE">Delete</button></td>
+                        </form>
+                        
+                        
+                        
                     </tr>
                     
                     <% } %>
@@ -55,7 +62,11 @@
             <a href="airlines/add"><input type="button" value="Add Airline" class="button button_add"></a>
             <a href="airlines/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
         </div>
-        
+        <script>
+            function confirmFunction() {
+                confirm("Are you sure you want to delete?");
+              }
+        </script>
     </body>
 
 </html>
