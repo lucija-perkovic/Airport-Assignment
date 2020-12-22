@@ -1,5 +1,9 @@
-
-
+legend{
+    font-size: 20px;
+}
+label{
+    font-size: 30px;
+}
 .display{
     width: 100%;
     font-size: 20px;
@@ -26,6 +30,9 @@
 }
 .button_add{
     background-color: yellowgreen;
+}
+.button_download{
+    background-color: blue;
 }
 #map {
     height: 250px;

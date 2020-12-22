@@ -12,5 +12,35 @@ router.get('/', async function (req, res) {
         
     });
 });
+router.get('/add', async function (req, res) {
+    res.render('airlines_add', {
+        title: 'Airlines_add',
+        linkActive: 'airlines_add',
+        
+        
+    });
+});
+router.get('/JSONDownload', async function(req,res){
+    const nac_parkovi = (await db.query('SELECT * FROM airlines'));
+    res.json(nac_parkovi);
+    
+});
+router.post('/add', async function (req, res) {
+    console.log(req.body);
+    console.log(req.body.airline_name);
+    console.log(req.body.country_name);
+    try{
+        var airlines = (await db.query('SELECT * FROM airlines'));
+        var airline_id = airlines.length - 1;
+        var airline_name = req.body.airline_name;
+        var country_name = req.body.country_name;
+        console.log(airline_id);
+        db.query(`INSERT INTO airlines(airline_name, country_name) VALUES($1, $2);`, [airline_name, country_name]);
+    }catch(err){
+        throw err;
+    }
+    res.redirect('/airlines');
+});
+
 
 module.exports = router;

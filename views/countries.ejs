@@ -30,6 +30,7 @@
             <table id="myTable" class="display">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>ISO</th>
                         <th>Name</th>
                     </tr>
@@ -37,6 +38,7 @@
                 <tbody>
                     <% for (let country of countries) { %>
                     <tr>
+                        <td><%=country.country_id%></td>
                         <td><%=country.iso%></td>
                         <td><%=country.country_name%></td>
                     </tr>
