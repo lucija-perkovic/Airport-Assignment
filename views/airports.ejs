@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="./styles/main.css">
         <script src="./scripts/maps.js"></script>
         <script type="text/javascript" charset="utf8" src="./styles/datatables.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8u7OB3sUpyP85gp0EAXWdrsXhAQ1Z1ZM&callback=initMap"
+        type="text/javascript"></script>
         
         <script>
             $(document).ready( function () {
@@ -41,16 +43,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <%var counter = 0;%>
                     <% for (let airport of airports) { %>
-                    <tr>   
-                        <td><%=airport.airport_id%></td>
+                        <% counter++; %>
+                    <tr><td id="airport_id"><%=airport.airport_id%></td>
                         <td><%=airport.airport_name%></td>
                         <td><%=airport.country_name%></td>
                         <td><%=airport.latitude%></td>
                         <td><%=airport.longitude%></td>
                         <td><%=airport.airline_name%></td>
-                        <td><input type="button" value="Edit" class="button button_edit"></td>
-                        <td><input type="button" value="Delete" class="button button_delete"></td>
+                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode.firstChild.innerHTML)"></td>
+                        <td><input type="button" value="Delete" class="button button_delete" id = "delete_click" onclick="deleteFunction(this.parentNode.parentNode)"></td>
                     </tr>
                     
                     <% } %>
@@ -58,12 +61,66 @@
             </table>
            
         </div>
+        <div class="form-popup" id="myForm">
+            <form class="form-container">
+                <h1>Edit airport</h1>
+
+                <label for="airport_name"><b>Airport name</b></label>
+                <input type="text" id = "airport_name" placeholder="Enter name" name="airport_name" required>
+                <label for="country_name"><b>Country name</b></label>
+                <input type="text" id = "country_name" placeholder="Enter country" name="country_name" required>
+                <label for="airline_name"><b>Associated airline</b></label>
+                <input type="text" id = "airline_name" placeholder="Enter airline" name="airline_name" required>
+                <label for="latitude"><b>Latitude: </b></label>
+                <input type="text" id = "lat"  name="latitude" required>
+                <label for="longitude"><b>Latitude: </b></label>
+                <input type="text" id = "lng"  name="longitude" required>
+                <div id="map"></div>
+                <button type="submit" class="btn" id = "edit_button">Edit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+            </form>
+           
+        </div>
         <div>
             <a href="airports/add"><input type="button" value="Add Airport" class="button button_add"></a>
             <a href="airports/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
         </div>
         
-        
+        <script>
+            
+            function deleteFunction(airport_id) {
+                
+                var confirm_button = confirm("Are you sure?");
+                airport_id = airport_id.firstChild.innerHTML;
+                console.log(airport_id);
+                
+                if(confirm_button){
+                    $.ajax({
+                        url: 'airports/delete/:airport_id',
+                        data: jQuery.param({ airport_id: airport_id}) ,
+                        type: 'DELETE',
+                        
+                        success: function(result) {
+                            console.log(result);
+                            
+                        }
+                        
+                    });
+                    location.reload();
+                    
+                }
+                
+            }
+        </script>
+        <script>
+            function openForm(id) {
+                document.getElementById("myForm").style.display = "block";
+            }
+            function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+            }
+            
+        </script>
     </body>
 
 </html>

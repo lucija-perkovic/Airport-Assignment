@@ -1,4 +1,5 @@
 const express = require('express');
+const { event } = require('jquery');
 const router = express.Router();
 const db = require('../database/db');
 
@@ -34,13 +35,49 @@ router.post('/add', async function (req, res) {
         var airline_name = req.body.airline_name;
         var country_name = req.body.country_name;
         
-        db.query(`INSERT INTO airlines(airline_name, country_name) VALUES($1, $2);`, [airline_name, country_name]);
+        if((airline_name || country_name) !== ""){
+            db.query(`INSERT INTO airlines(airline_name, country_name) VALUES($1, $2);`, [airline_name, country_name]);
+            res.redirect('/airlines');
+        }
+        else{
+            throw new Error('Required');
+        }
     }catch(err){
-        throw err;
+        
+        res.send(err);
+        
+        res.end();
     }
-    res.redirect('/airlines');
+    
 });
+router.delete('/delete/:airline_id', async function(req,res){
+    var airline_id = req.body.airline_id;
+    console.log(airline_id);
+    db.query(`DELETE FROM airlines WHERE airline_id = $1`, [airline_id]);
 
+});
+router.put('/edit/:airline_id', async function (req, res) {
+    var airline_id = req.body.airline_id;
+    console.log(airline_id);
+    try{
+        var airline_name = req.body.airline_name;
+        var country_name = req.body.country_name;
+        
+        if((airline_name || country_name) !== ""){
+            db.query(`UPDATE airlines SET airline_name = $1, country_name = $2 WHERE airline_id = $3`, [airline_name, country_name, airline_id]);
+            res.redirect('/airlines');
+        }
+        else{
+            throw new Error('Required');
+        }
+    }catch(err){
+        
+        res.send(err);
+        
+        res.end();
+    }
+    
+});
 
 
 module.exports = router;

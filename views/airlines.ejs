@@ -39,14 +39,15 @@
                 </thead>
                 <tbody>
                     <% for (let airline of airlines) { %>
-                    <tr>
-                        <td><%=airline.airline_id%></td>
+                    <tr><td><%=airline.airline_id%></td>
                         <td><%=airline.airline_name%></td>
                         <td><%=airline.country_name%></td>
-                        <form action="put" method="P"></form>
-                        <td><input type="button" value="Edit" class="button button_edit"></td>
                         
-                        <td><input type="button" value="Delete" class="button button_delete"></td>
+                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode.firstChild.innerHTML)"></td>
+                        
+                        
+                        
+                        <td><input type="button" value="Delete" class="button button_delete" id = "delete_click" onclick="deleteFunction(this.parentNode.parentNode)"></td>
                     </tr>
                     
                     <% } %>
@@ -54,14 +55,83 @@
             </table>
            
         </div>
+        <div class="form-popup" id="myForm">
+            <form class="form-container">
+                <h1>Edit airline</h1>
+
+                <label for="airline_name"><b>Airline name</b></label>
+                <input type="text" id = "airline_name" placeholder="Enter name" name="airline_name" required>
+
+                <label for="country_name"><b>Country name</b></label>
+                <input type="text" id = "country_name" placeholder="Enter country" name="country_name" required>
+                <button type="submit" class="btn" id = "edit_button">Edit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+            </form>
+           
+        </div>
         <div>
             <a href="airlines/add"><input type="button" value="Add Airline" class="button button_add"></a>
             <a href="airlines/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
         </div>
         <script>
-            function confirmFunction() {
-                confirm("Are you sure you want to delete?");
-              }
+            function deleteFunction(airline_id) {
+                
+                var confirm_button = confirm("Are you sure?");
+                airline_id = airline_id.firstChild.innerHTML;
+                console.log(airline_id);
+                
+                if(confirm_button){
+                    $.ajax({
+                        url: 'airlines/delete/:airline_id',
+                        data: jQuery.param({ airline_id: airline_id}) ,
+                        type: 'DELETE',
+                        
+                        success: function(result) {
+                            console.log(result);
+                        }
+                        
+                    });
+                    location.reload();
+                    
+                }
+                
+            }
+        </script>
+        <script>
+            var airline_id = 0;
+            function openForm(id) {
+                document.getElementById("myForm").style.display = "block";
+                airline_id = id;
+            }
+
+            document.getElementById("edit_button").addEventListener("click", function() {
+                var airline_name = document.getElementById("airline_name").value;
+                var country_name = document.getElementById("country_name").value;
+                console.log(airline_name);
+                console.log(country_name);
+                console.log(airline_id);
+                $.ajax({
+                        url: 'airlines/edit/:airline_id',
+                        data: jQuery.param({ airline_id: airline_id, airline_name:airline_name, country_name: country_name}) ,
+                        type: 'PUT',
+                        
+                        success: function(result) {
+                            console.log(result);
+                            
+                            
+                        }
+                        
+                    }).done(function () {
+                        console.log('SUCCESS');
+                    }).fail(function(msg){
+                        console.log('FAIL')
+                    });
+                   
+            })
+            function closeForm() {
+                document.getElementById("myForm").style.display = "none";
+            }
+            
         </script>
     </body>
 
