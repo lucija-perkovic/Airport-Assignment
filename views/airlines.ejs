@@ -43,7 +43,7 @@
                         <td><%=airline.airline_name%></td>
                         <td><%=airline.country_name%></td>
                         
-                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode.firstChild.innerHTML)"></td>
+                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode)"></td>
                         
                         
                         
@@ -64,7 +64,7 @@
 
                 <label for="country_name"><b>Country name</b></label>
                 <input type="text" id = "country_name" placeholder="Enter country" name="country_name" required>
-                <button type="submit" class="btn" id = "edit_button">Edit</button>
+                <button type="submit" class="btn" id = "edit_button">Save</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
             </form>
            
@@ -101,7 +101,10 @@
             var airline_id = 0;
             function openForm(id) {
                 document.getElementById("myForm").style.display = "block";
-                airline_id = id;
+                document.getElementById("airline_name").value = id.childNodes[2].innerHTML;
+                document.getElementById("country_name").value = id.childNodes[4].innerHTML;
+
+                airline_id = id.firstChild.innerHTML;
             }
 
             document.getElementById("edit_button").addEventListener("click", function() {

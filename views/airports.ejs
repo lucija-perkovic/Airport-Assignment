@@ -52,7 +52,7 @@
                         <td><%=airport.latitude%></td>
                         <td><%=airport.longitude%></td>
                         <td><%=airport.airline_name%></td>
-                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode.firstChild.innerHTML)"></td>
+                        <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode)"></td>
                         <td><input type="button" value="Delete" class="button button_delete" id = "delete_click" onclick="deleteFunction(this.parentNode.parentNode)"></td>
                     </tr>
                     
@@ -76,7 +76,7 @@
                 <label for="longitude"><b>Latitude: </b></label>
                 <input type="text" id = "lng"  name="longitude" required>
                 <div id="map"></div>
-                <button type="submit" class="btn" id = "edit_button">Edit</button>
+                <button type="submit" class="btn" id = "edit_button">Save</button>
                 <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
             </form>
            
@@ -116,7 +116,13 @@
             var airport_id = 0;
             function openForm(id) {
                 document.getElementById("myForm").style.display = "block";
-                airport_id = id;
+                airport_id = id.firstChild.innerHTML;
+                document.getElementById("airport_name").value = id.childNodes[2].innerHTML;
+                document.getElementById("country_name").value = id.childNodes[4].innerHTML;
+                document.getElementById("airline_name").value = id.childNodes[10].innerHTML;
+                document.getElementById("lat").value = id.childNodes[6].innerHTML;
+                document.getElementById("lng").value = id.childNodes[8].innerHTML;
+
                 console.log(airport_id);
             }
             
