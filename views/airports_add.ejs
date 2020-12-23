@@ -13,6 +13,8 @@
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8u7OB3sUpyP85gp0EAXWdrsXhAQ1Z1ZM&callback=initMap"
         type="text/javascript"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="../scripts/maps.js"></script>
+
 
     </head>
     <body>
@@ -39,50 +41,6 @@
             
         </div>
         
-        <script>
-            var map;
-            function initMap() {
-                var myLatlng = new google.maps.LatLng(45.815399,15.966568);
-                var myOptions = {
-                    zoom: 7,
-                    center: myLatlng,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                }
-                map = new google.maps.Map(document.getElementById("map"), myOptions);
-                map.setOptions({draggableCursor:'crosshair'});
-
-                marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map
-                });
-
-                google.maps.event.addListener(map, "click", function(event) {
-                
-                    var clickLat = event.latLng.lat();
-                    var clickLng = event.latLng.lng();
-
-                
-                    document.getElementById("lat").value = clickLat.toFixed(5);
-                    document.getElementById("lng").value = clickLng.toFixed(5);
-
-                    var marker = new google.maps.Marker({
-                        position: new google.maps.LatLng(clickLat,clickLng),
-                        map: map
-                    });
-                });
-            }   
-
-    
-        </script>
-        <script>
-             $("#myForm").ajaxForm({
-                        url: 'airports/add', 
-                        type: 'post'
-                    });
-            $("#myForm").on("submit", function (e) {
-                e.preventDefault();
-            });
-        </script>
     </body>
 
 </html>

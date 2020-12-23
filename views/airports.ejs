@@ -113,14 +113,49 @@
             }
         </script>
         <script>
+            var airport_id = 0;
             function openForm(id) {
                 document.getElementById("myForm").style.display = "block";
+                airport_id = id;
+                console.log(airport_id);
             }
+            
+            document.getElementById("edit_button").addEventListener("click", function() {
+                var airport_name = document.getElementById("airport_name").value;
+                var country_name = document.getElementById("country_name").value;
+                var airline_name = document.getElementById("airline_name").value;
+                var latitude = document.getElementById("lat").value;
+                var longitude = document.getElementById("lng").value;
+                console.log(airport_name);
+                console.log(country_name);
+                console.log(latitude);
+                console.log(longitude);
+
+
+                $.ajax({
+                        url: 'airports/edit/:airport_id',
+                        data: jQuery.param({ airport_id: airport_id, airline_name:airline_name, country_name: country_name, airport_name:airport_name, latitude:latitude,longitude:longitude}) ,
+                        type: 'PUT',
+                        
+                        success: function(result) {
+                            console.log(result);
+                            
+                            
+                        }
+                        
+                    }).done(function () {
+                        console.log('SUCCESS');
+                    }).fail(function(msg){
+                        console.log('FAIL')
+                    });
+                   
+            })
             function closeForm() {
                 document.getElementById("myForm").style.display = "none";
             }
             
         </script>
+        
     </body>
 
 </html>

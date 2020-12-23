@@ -57,12 +57,16 @@ router.put('/edit/:airport_id', async function (req, res) {
     var airport_id = req.body.airport_id;
     console.log(airport_id);
     try{
-        var airport_name = req.body.airline_name;
+        var airport_name = req.body.airport_name;
         var country_name = req.body.country_name;
-        
+        var airline_name = req.body.airline_name;
+        var latitude = req.body.latitude;
+        var longitude = req.body.longitude;
         if((airline_name || country_name) !== ""){
-            db.query(`UPDATE airlines SET airline_name = $1, country_name = $2 WHERE airline_id = $3`, [airline_name, country_name, airline_id]);
-            res.redirect('/airlines');
+            db.query(`UPDATE airports 
+                    SET airport_name = $1, country_name = $2, airline_name = $3, latitude = $4, longitude = $5 
+                    WHERE airport_id = $6`, [airport_name, country_name, airline_name, latitude, longitude,airport_id]);
+            
         }
         else{
             throw new Error('Required');
