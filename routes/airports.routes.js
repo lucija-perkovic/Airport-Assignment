@@ -35,7 +35,8 @@ router.post('/add', async function (req, res) {
         var airline_name = req.body.airline_name;
         console.log(airport_name);
         if((airport_name || country_name || latitude || longitude || airline_name) !== ""){
-            db.query(`INSERT INTO airports(airport_name, country_name,airline_name, latitude, longitude) VALUES($1, $2, $3, $4, $5);`, [airport_name,country_name,airline_name,latitude,longitude]);
+            db.query(`INSERT INTO airports(airport_name, country_name,airline_name, latitude, longitude) 
+                    VALUES($1, $2, $3, $4, $5);`, [airport_name,country_name,airline_name,latitude,longitude]);
             res.redirect('/airports');
         }
         else{
