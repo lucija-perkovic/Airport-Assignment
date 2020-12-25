@@ -14,7 +14,6 @@
         <link rel="stylesheet" href="./styles/main.css">
         <script type="text/javascript" charset="utf8" src="./styles/datatables.js"></script>
         
-        
         <script>
             $(document).ready( function () {
 		        $('#myTable').DataTable();
@@ -35,6 +34,8 @@
                         <th>Country</th>
                         <th></th>
                         <th></th>
+                        <th></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -42,12 +43,10 @@
                     <tr><td><%=airline.airline_id%></td>
                         <td><%=airline.airline_name%></td>
                         <td><%=airline.country_name%></td>
-                        
+                        <td><input type="button" value="View" class="button button_view" id = "view_click" onclick="openViewForm(this.parentNode.parentNode)"></td>
                         <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode)"></td>
-                        
-                        
-                        
                         <td><input type="button" value="Delete" class="button button_delete" id = "delete_click" onclick="deleteFunction(this.parentNode.parentNode)"></td>
+
                     </tr>
                     
                     <% } %>
@@ -55,24 +54,57 @@
             </table>
            
         </div>
+        <div>
+            <input type="button" value="Add airline" class="button button_add" id = "add_click" onclick="addFunction(this.parentNode.parentNode)">
+            <a href="airlines/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
+        </div>
         <div class="form-popup" id="myForm">
-            <form class="form-container">
-                <h1>Edit airline</h1>
+            <form class="form-container"><fieldset>
+                <legend>Edit airline</legend>
 
                 <label for="airline_name"><b>Airline name</b></label>
                 <input type="text" id = "airline_name" placeholder="Enter name" name="airline_name" required>
 
                 <label for="country_name"><b>Country name</b></label>
                 <input type="text" id = "country_name" placeholder="Enter country" name="country_name" required>
-                <button type="submit" class="btn" id = "edit_button">Save</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                <button type="submit" class="button button_add" id = "edit_button">Save</button>
+                <button type="button" class="button cancel" onclick="closeForm()">Cancel</button>
+            </form>
+            </fieldset>
+                
+           
+        </div>
+        <div class="form-popup" id="myViewForm">
+            <form class="form-container">
+                <label for="airline_name" ><b>Airline name</b></label>
+                <input type="text" id="view_airline_name" name="airline_name" readonly>
+
+                <label for="country_name" ><b>Country name</b></label>
+                <input type="text" id = "view_country_name"  name="country_name" readonly>
+
+                <button type="button" class="button cancel" onclick="closeForm2()">Back</button>
             </form>
            
         </div>
-        <div>
-            <a href="airlines/add"><input type="button" value="Add Airline" class="button button_add"></a>
-            <a href="airlines/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
+
+        <div class="form-popup" id="myAddForm">
+            <form class="form-container"><fieldset>
+                <legend>New airline</legend><br>
+                <label for="airline_name" >Name:</label>
+                <input type="text" name="airline_name" id="airline_name_add" size="30" required><br>
+                <label for="country_name">Country:</label>
+                <input type="text" name="country_name" id="country_name_add" size="30" required><br>
+                <br>
+              
+                <div>
+                    <button type="submit" class="button button_add" id = "add_button">Add</button>
+                    <button type="button" class="button cancel" onclick="closeForm3()">Back</button>
+
+                </div>
+            </fieldset></form>
+           
         </div>
+        
         <script>
             function deleteFunction(airline_id) {
                 
@@ -103,7 +135,7 @@
                 document.getElementById("myForm").style.display = "block";
                 document.getElementById("airline_name").value = id.childNodes[2].innerHTML;
                 document.getElementById("country_name").value = id.childNodes[4].innerHTML;
-
+                
                 airline_id = id.firstChild.innerHTML;
             }
 
@@ -119,21 +151,77 @@
                         type: 'PUT',
                         
                         success: function(result) {
-                            console.log(result);
+                            alert('Added succesfully');
                             
+                            
+                        },
+                        error: function(error) {
+                            if(error.responseText == 'Country not in countries.'){
+                                alert("Country not in countries.");
+                            }
                             
                         }
-                        
-                    }).done(function () {
-                        console.log('SUCCESS');
-                    }).fail(function(msg){
-                        console.log('FAIL')
-                    });
+                            
+                        })
+                    event.preventDefault();   
+                    location.reload();
+                   
                    
             })
             function closeForm() {
                 document.getElementById("myForm").style.display = "none";
             }
+            
+        </script>
+        <script>
+            function openViewForm(id) {
+                document.getElementById("myViewForm").style.display = "block";
+                
+                document.getElementById("view_airline_name").value = id.childNodes[2].innerHTML;
+                document.getElementById("view_country_name").value = id.childNodes[4].innerHTML;
+
+            }
+            function closeForm2() {
+                document.getElementById("myViewForm").style.display = "none";
+            }
+        </script>
+        <script>
+            function addFunction(id) {
+                document.getElementById("myAddForm").style.display = "block";
+
+            }
+            document.getElementById("add_button").addEventListener("click", function() {
+                var airline_name = document.getElementById("airline_name_add").value;
+                var country_name = document.getElementById("country_name_add").value;
+                
+                $.ajax({
+                        url: 'airlines/add',
+                        data: jQuery.param({ airline_name:airline_name, country_name: country_name}) ,
+                        type: 'POST',
+                        
+                        success: function(result) {
+                            alert('Added succesfully');
+                            window.location.reload();
+                        },
+                        error: function(error) {
+                            if(error.responseText == 'Airline name already exists.'){
+                                alert("Airline name already exists.");
+                            }
+                            if(error.responseText == 'Country not in countries.'){
+                                alert("Country not in countries.");
+                            }
+                        
+                        }
+                        
+                    })
+                event.preventDefault();    
+                   
+            })
+            function closeForm3() {
+                document.getElementById("myAddForm").style.display = "none";
+            }
+
+            
             
         </script>
     </body>

@@ -34,14 +34,16 @@
                         <th>ID</th>
                         <th>ISO</th>
                         <th>Name</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <% for (let country of countries) { %>
-                    <tr>
-                        <td><%=country.country_id%></td>
+                    <tr><td><%=country.country_id%></td>
                         <td><%=country.iso%></td>
                         <td><%=country.country_name%></td>
+                        <td><input type="button" value="View" class="button button_view" id = "view_click" onclick="openViewForm(this.parentNode.parentNode)"></td>
+
                     </tr>
                     
                     <% } %>
@@ -50,8 +52,29 @@
            
         </div>
         <div><a href="countries/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a></div>
-        
-        
+        <div class="form-popup" id="myViewForm">
+            <form class="form-container">
+                <label for="ISO" ><b>Airline name</b></label>
+                <input type="text" id="view_iso" name="iso" readonly>
+
+                <label for="country_name" ><b>Country name</b></label>
+                <input type="text" id = "view_country_name"  name="country_name" readonly>
+
+                <button type="button" class="button cancel" onclick="closeForm2()">Back</button>
+            </form>
+           
+        </div>
+        <script>
+            function openViewForm(id) {
+                document.getElementById("myViewForm").style.display = "block";
+                document.getElementById("view_iso").value = id.childNodes[2].innerHTML;
+                document.getElementById("view_country_name").value = id.childNodes[4].innerHTML;
+
+            }
+            function closeForm2() {
+                document.getElementById("myViewForm").style.display = "none";
+            }
+        </script>
     </body>
 
 </html>

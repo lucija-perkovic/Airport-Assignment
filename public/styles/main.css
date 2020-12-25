@@ -104,6 +104,9 @@ label{
 .button_delete{
     background-color: red;
 }
+.button_view{
+  background-color: cadetblue;
+}
 .button_add{
     background-color: yellowgreen;
 }
@@ -113,10 +116,10 @@ label{
 .button_back{
     background-color: rgb(65, 57, 57);
 }
-#map {
+#map, #map2 {
     zoom: 1;
     height: 400px;
-    width: 50%;
+    width: 100%;
     margin: 0;
     padding: 0;
   }

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="./styles/main.css">
         <script src="./scripts/maps.js"></script>
         <script type="text/javascript" charset="utf8" src="./styles/datatables.js"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8u7OB3sUpyP85gp0EAXWdrsXhAQ1Z1ZM&callback=initMap"
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOURAPIKEY&callback=initMap"
         type="text/javascript"></script>
         
         <script>
@@ -40,18 +40,19 @@
                         <th>Associated airline</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <%var counter = 0;%>
                     <% for (let airport of airports) { %>
-                        <% counter++; %>
                     <tr><td id="airport_id"><%=airport.airport_id%></td>
                         <td><%=airport.airport_name%></td>
                         <td><%=airport.country_name%></td>
                         <td><%=airport.latitude%></td>
                         <td><%=airport.longitude%></td>
                         <td><%=airport.airline_name%></td>
+                        <td><input type="button" value="View" class="button button_view" id = "view_click" onclick="openViewForm(this.parentNode.parentNode)"></td>
                         <td><input type="submit" value="Edit" class="button button_edit" id = "edit_click" onclick="openForm(this.parentNode.parentNode)"></td>
                         <td><input type="button" value="Delete" class="button button_delete" id = "delete_click" onclick="deleteFunction(this.parentNode.parentNode)"></td>
                     </tr>
@@ -61,9 +62,13 @@
             </table>
            
         </div>
+        <div>
+            <input type="button" value="Add airport" class="button button_add" id = "add_click" onclick="addFunction(this.parentNode.parentNode)">
+            <a href="airports/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
+        </div>
         <div class="form-popup" id="myForm">
-            <form class="form-container">
-                <h1>Edit airport</h1>
+            <form class="form-container"><fieldset>
+                <legend>Edit airport</legend>
 
                 <label for="airport_name"><b>Airport name</b></label>
                 <input type="text" id = "airport_name" placeholder="Enter name" name="airport_name" required>
@@ -72,27 +77,67 @@
                 <label for="airline_name"><b>Associated airline</b></label>
                 <input type="text" id = "airline_name" placeholder="Enter airline" name="airline_name" required>
                 <label for="latitude"><b>Latitude: </b></label>
-                <input type="text" id = "lat"  name="latitude" required>
+                <input type="text" id = "lat"  name="latitude" readonly>
                 <label for="longitude"><b>Latitude: </b></label>
-                <input type="text" id = "lng"  name="longitude" required>
+                <input type="text" id = "lng"  name="longitude" readonly>
                 <div id="map"></div>
-                <button type="submit" class="btn" id = "edit_button">Save</button>
-                <button type="button" class="btn cancel" onclick="closeForm()">Cancel</button>
+                <button type="submit" class="button button_add" id = "edit_button">Save</button>
+                <button type="button" class="button cancel" onclick="closeForm()">Cancel</button>
+            </fieldset>
             </form>
            
         </div>
-        <div>
-            <a href="airports/add"><input type="button" value="Add Airport" class="button button_add"></a>
-            <a href="airports/JSONDownload" download ><input type="button" value="JSON Download" class="button button_download"></a>
+        <div class="form-popup" id="myViewForm">
+            <form class="form-container">
+                <label for="airport_name" ><b>Airport name</b></label>
+                <input type="text" id="view_airport_name" name="airport_name" readonly>
+
+                <label for="country_name" ><b>Country name</b></label>
+                <input type="text" id = "view_country_name"  name="country_name" readonly>
+
+                <label for="airline_name"><b>Associated airline</b></label>
+                <input type="text" id = "view_airline_name" name="airline_name" readonly>
+
+                <label for="latitude"><b>Latitude: </b></label>
+                <input type="text" id = "view_lat"  name="latitude" readonly>
+
+                <label for="longitude"><b>Latitude: </b></label>
+                <input type="text" id = "view_lng"  name="longitude" readonly>
+
+                <button type="button" class="btn cancel" onclick="closeForm2()">Back</button>
+            </form>
+           
         </div>
-        
+    
+        <div class="form-popup" id="myAddForm">
+            <form class="form-container"><fieldset>
+                <legend>New airport</legend><br>
+                <label for="airport_name">Name:</label>
+                <input type="text" name="airport_name" id="airport_name_add" size="30" placeholder="Enter name" required><br>
+                <label for="country_name">Country:</label>
+                <input type="text" name="country_name" id="country_name_add" size="30" placeholder = "Enter country" required><br>
+                <label for="airline_name">Associated Airline:</label>
+                <input type="text" name="airline_name" id="airline_name_add" size="30" placeholder="Enter airline name" required><br>
+                <label for="latitude">Latitude:</label>
+                <input type="text" name = "latitude" id="lat_add" size="40" placeholder="Click on the map!" readonly required>
+                <label for="longitude">Longitude:</label>
+                <input type="text" name = "longitude" id="lng_add" placeholder="Click on the map!" text-size="40" readonly required>
+                <div id="map2"></div>
+                <div>
+                    <input type="submit" value="Add" class="button button_add" id="add_button">
+                    <button type="button" class="button cancel" onclick="closeForm3()">Cancel</button>
+                </div>
+                
+
+            </fieldset></form>
+            
+        </div>
         <script>
             
             function deleteFunction(airport_id) {
                 
                 var confirm_button = confirm("Are you sure?");
                 airport_id = airport_id.firstChild.innerHTML;
-                console.log(airport_id);
                 
                 if(confirm_button){
                     $.ajax({
@@ -101,13 +146,12 @@
                         type: 'DELETE',
                         
                         success: function(result) {
-                            console.log(result);
-                            
+                            alert('Succesfully deleted!');                            
                         }
                         
                     });
                     location.reload();
-                    
+
                 }
                 
             }
@@ -123,7 +167,6 @@
                 document.getElementById("lat").value = id.childNodes[6].innerHTML;
                 document.getElementById("lng").value = id.childNodes[8].innerHTML;
 
-                console.log(airport_id);
             }
             
             document.getElementById("edit_button").addEventListener("click", function() {
@@ -132,34 +175,98 @@
                 var airline_name = document.getElementById("airline_name").value;
                 var latitude = document.getElementById("lat").value;
                 var longitude = document.getElementById("lng").value;
-                console.log(airport_name);
-                console.log(country_name);
-                console.log(latitude);
-                console.log(longitude);
-
+                
 
                 $.ajax({
-                        url: 'airports/edit/:airport_id',
+                        url: 'airports/edit',
                         data: jQuery.param({ airport_id: airport_id, airline_name:airline_name, country_name: country_name, airport_name:airport_name, latitude:latitude,longitude:longitude}) ,
                         type: 'PUT',
                         
                         success: function(result) {
-                            console.log(result);
+                            alert('Succesfully edited!');
                             
+                        },
+                        error: function(error){
+                            if(error.responseText == 'Country not in countries.'){
+                                alert("Country not in countries.");
+                            }
+                            if(error.responseText == 'Airport name already exists.'){
+                                alert('Airport name already exists.');
+                            }
                             
                         }
-                        
-                    }).done(function () {
-                        console.log('SUCCESS');
-                    }).fail(function(msg){
-                        console.log('FAIL')
-                    });
+                    })
+                    event.preventDefault();
+                    location.reload();
                    
             })
             function closeForm() {
                 document.getElementById("myForm").style.display = "none";
             }
             
+        </script>
+        <script>
+            function openViewForm(id) {
+                document.getElementById("myViewForm").style.display = "block";
+             
+                document.getElementById("view_airport_name").value = id.childNodes[2].innerHTML;
+                document.getElementById("view_country_name").value = id.childNodes[4].innerHTML;
+                document.getElementById("view_airline_name").value = id.childNodes[10].innerHTML;
+                document.getElementById("view_lat").value = id.childNodes[6].innerHTML;
+                document.getElementById("view_lng").value = id.childNodes[8].innerHTML;
+
+
+
+
+            }
+            function closeForm2() {
+                document.getElementById("myViewForm").style.display = "none";
+            }
+        </script>
+        <script>
+            function addFunction(id) {
+                document.getElementById("myAddForm").style.display = "block";
+
+            }
+            document.getElementById("add_button").addEventListener("click", function() {
+                var airport_name = document.getElementById("airport_name_add").value;
+                var country_name = document.getElementById("country_name_add").value;
+                var airline_name = document.getElementById("airline_name_add").value;
+                var latitude = document.getElementById("lat_add").value;
+                var longitude = document.getElementById("lng_add").value;
+                
+
+
+                $.ajax({
+                        url: 'airports/add',
+                        data: jQuery.param({ airline_name:airline_name, country_name: country_name, airport_name:airport_name, latitude:latitude,longitude:longitude}) ,
+                        type: 'POST',
+                        
+                        success: function(result) {
+                            alert('Added succesfully');
+                            window.location.reload();
+                            
+                        },
+                        error: function(error) {
+                            if(error.responseText == 'Airline not in airlines'){
+                                alert("Airline not in airlines");
+                            }
+                            if(error.responseText == 'Country not in countries.'){
+                                alert("Country not in countries.");
+                            }
+                            if(error.responseText == 'Airport name already exists.'){
+                                alert('Airport name already exists.');
+                            }
+                        }
+                            
+                        })
+                    event.preventDefault();   
+                    
+                   
+            });
+            function closeForm3() {
+                document.getElementById("myAddForm").style.display = "none";
+            }
         </script>
         
     </body>
