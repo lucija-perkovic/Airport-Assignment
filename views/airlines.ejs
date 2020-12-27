@@ -101,6 +101,7 @@
                     <button type="button" class="button cancel" onclick="closeForm3()">Back</button>
 
                 </div>
+                <div id = "submit_message" style="color: red;"></div>
             </fieldset></form>
            
         </div>
@@ -151,7 +152,7 @@
                         type: 'PUT',
                         
                         success: function(result) {
-                            alert('Added succesfully');
+                            
                             
                             
                         },
@@ -196,25 +197,22 @@
                 
                 $.ajax({
                         url: 'airlines/add',
-                        data: jQuery.param({ airline_name:airline_name, country_name: country_name}) ,
+                        data: jQuery.param({ airline_name: airline_name, country_name: country_name}) ,
                         type: 'POST',
                         
                         success: function(result) {
-                            alert('Added succesfully');
+                            document.getElementById("submit_message").innerHTML = "";
                             window.location.reload();
                         },
                         error: function(error) {
-                            if(error.responseText == 'Airline name already exists.'){
-                                alert("Airline name already exists.");
-                            }
-                            if(error.responseText == 'Country not in countries.'){
-                                alert("Country not in countries.");
-                            }
-                        
+                            
+                            document.getElementById("submit_message").innerHTML = error.responseText;
+                            document.getElementById("submit_message").style.display = "block";
+                            
                         }
                         
                     })
-                event.preventDefault();    
+                    event.preventDefault();
                    
             })
             function closeForm3() {
